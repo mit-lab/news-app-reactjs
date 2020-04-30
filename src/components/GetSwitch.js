@@ -28,7 +28,7 @@ function GetSwitch() {
   return (
     <Switch>
       
-      {/* автоматическое создание меню route с path */}
+      {/* автоматическое создание Route с path */}
       {data.categories.map(( item ) => (
         <Route path={`/${item.slug}`}>
           <Row>
@@ -38,7 +38,7 @@ function GetSwitch() {
         </Route>
       ))} 
 
-        {/* маршрут главной страниц создан отдельно временно, удалю */}
+        {/* Route c маршрутом создан временно, удалю */}
         <Route path="/">
           <Row>
             <Col flex="200px"><GetMenu /></Col>
