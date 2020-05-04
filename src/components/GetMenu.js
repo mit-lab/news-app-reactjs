@@ -1,64 +1,77 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { Link } from "react-router-dom";
 import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu } from 'antd';
 import styled from 'styled-components';
 import {  NotificationOutlined } from '@ant-design/icons';
+import { Query } from 'react-apollo'
+import {  ReadOutlined } from '@ant-design/icons';
 
 
 // styled
 const Wrapper = styled.div`
+  margin-top: 20px;
   position: fixed;
   width: 200px;
 `
 
-// components
-// import Header from './Header';
-// import Footer from './Footer';
-
 
 const GET_LIST = gql`
-  {
-    categories {
+query Query($slug: String ){
+  categories(where: {slug: {_eq: $slug }}) { 
       slug
       name_rubric
+      articles_categories {
+        article {
+          id
+        }
+      }
     }
   }
 `;
 
 
 const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
 
+class GetMenu extends Component {
 
-function GetMenu () {
-  const { loading, error, data } = useQuery(GET_LIST);
-  if (loading) return <p>Loading</p>;
-  if (error) return <p>Error :(</p>;
- 
-  return (
-    <Wrapper>
-      <Layout>
-        <Menu
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
-          style={{ height: '100%', borderRight: 0 }}
-        >
-          <SubMenu key="sub3" icon={<NotificationOutlined />} title="Рубрики">
+  render(props) { 
 
-            {data.categories.map(( item ) => (
-              <Menu.Item>
-                <Link to={`${item.slug}`}>{item.name_rubric}</Link>
-              </Menu.Item>
-            ))} 
+    return (
+      <Query query={GET_LIST}>
+        {({ loading, error, data }) => {
+        if (loading) return <div>Fetching</div>
+        if (error) return <div>Error</div>
 
-          </SubMenu>
-        </Menu>
-    </Layout>
-    </Wrapper>
-  ) 
+        return (
+          <Wrapper>
+            <Layout>
+            <Link to="/">
+              <ReadOutlined style={{ float: "left", fontSize: "38px", background: "white", padding: "8px 0 0 25px", width: "100%"}} />
+            </Link>
+              <Menu
+                mode="inline"
+                defaultSelectedKeys={['1']}
+                defaultOpenKeys={['sub1']}
+                style={{ height: '100%', borderRight: 0 }}
+              >
+                <SubMenu key="sub3" icon={<NotificationOutlined />} title="Рубрики">
+                  {data.categories.map(( item ) => (
+                    <Menu.Item>
+                      <Link to={`${item.slug}`}>{item.name_rubric}</Link>
+                    </Menu.Item>
+                  ))} 
+                </SubMenu>
+              </Menu>
+            </Layout>
+          </Wrapper>
+        )
+
+        }}
+      </Query>
+    )
+
+  }
 };
 
 

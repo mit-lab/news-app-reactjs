@@ -1,13 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from 'react-router-dom'
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import 'antd/dist/antd.css'; 
 import './App.css';
 
 
-// components
-import GetSwitch from './components/GetSwitch';
+import GetSwitch from './components/GetSwitch'
 
 
 const client = new ApolloClient({
@@ -18,14 +17,15 @@ const client = new ApolloClient({
   uri: 'https://gql-2.test.serafim.help/v1/graphql',
 });
 
+
 function App() {
   return (
     <div className="App">
-        <ApolloProvider client={client}>
-          <Router>
+      <BrowserRouter>
+        <ApolloProvider client={client}> 
             <GetSwitch />
-          </Router> 
         </ApolloProvider>
+        </BrowserRouter>
     </div>
   );
 }
