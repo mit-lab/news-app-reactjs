@@ -15,6 +15,13 @@ const Wrapper = styled.div`
   width: 200px;
 `
 
+const ReadOutlinedImg = styled(ReadOutlined)`
+  float: left; 
+  font-size: 38px; 
+  background: white;
+  padding: 8px 0 0 25px;
+  width: 100%;
+`
 
 const GET_LIST = gql`
 query Query($slug: String ){
@@ -47,7 +54,7 @@ class GetMenu extends Component {
           <Wrapper>
             <Layout>
             <Link to="/">
-              <ReadOutlined style={{ float: "left", fontSize: "38px", background: "white", padding: "8px 0 0 25px", width: "100%"}} />
+              <ReadOutlinedImg />
             </Link>
               <Menu
                 mode="inline"
