@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 
 const GET_NEWS = gql`
   query Query($slug: String! ){
-    articles(where: {slug: {_eq: $slug }}) {
+      articles(where: {slug: {_eq: $slug }}) {
       body
       created_at
       id

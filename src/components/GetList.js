@@ -1,8 +1,11 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, Switch, Route, useRouteMatch } from "react-router-dom";
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { Query } from 'react-apollo'
+
+//components
+import GetNews from './GetNews';
 
 
 // styled
@@ -30,7 +33,7 @@ const GET_LIST = gql`
 
 
 function GetList ({ slug }) {
-
+  let match = useRouteMatch();
   return(
     <div>
       <Query query={GET_LIST} variables={{ slug }} >
@@ -51,11 +54,27 @@ function GetList ({ slug }) {
                     </h3>
                     <div >
                       <p style={{margin:'0'}}>{article.teaser}</p>
-                      <Link to={article.slug} style={{margin:'0', cursor:'pointer'}}>Читать далее</Link>
+                      <Link to={`${match.url}/${article.slug}`} 
+                      style={{margin:'0', cursor:'pointer'}}>
+                        Читать далее
+                      </Link>
                     </div>
                   </div>
                 ))} 
+                <Switch>
+
+                {console.log(data.categories[0].articles_categories, 'data.articles')}
+                {data.categories[0].articles_categories.map(({ article }) => (
+                  <Route path={`${match.path}/${article.slug}`}>
+                      <GetNews slug={article.slug} />
+                  </Route>
+                ))} 
+
+  
+
+                </Switch>
               </Wrapper>
+              
             )}
           </>
         )}
